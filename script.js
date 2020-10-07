@@ -1,31 +1,34 @@
 let money = prompt("Ваше месячный доход:", 500); 
-let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Интернет, телефон, такси'); 
+let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Еда, такси'); 
 let deposit = confirm('Есть ли у вас депозит в банке?'); 
-let expenses1 = confirm('Введите обязательную статью расходов?');
-let amount1 = prompt('Во сколько это обойдется?', 200);
+
+let expenses1 = confirm('Введите обязательную статью расходов?', 'Интернет');
+let amount1 = prompt('Во сколько это обойдется?', 15);
+let expenses2 = confirm('Введите обязательную статью расходов?', "Телефон");
+let amount2 = prompt('Во сколько это обойдется?', 10);
 
 let mission = 800; 
 let period = Math.round(mission / money);
 
 
-function getExpensesMonth(expenses) {
-    return expenses;
+function getExpensesMonth() {
+    return expenses1 + expenses2;
 }
 
-function getAccumulatedMonth(accumulated) {
-    return accumulated;
+function getAccumulatedMonth() {
+    return money - getAccumulatedMonth();
 }
 
 let accumulatedMonth = getAccumulatedMonth();
 
-function getTargetMonth(mission, accumulatedMonth) {
-    return Math.round(mission/accumulatedMonth);
+function getTargetMonth() {
+    return Math.round(mission / accumulatedMonth);
 }
 
 console.log(typeof money);
 console.log(typeof deposit);
 
-console.log(`Расходы за месяц: ${getExpensesMonth(amount1)}`);
+console.log(`Расходы за месяц: ${getExpensesMonth()}`);
 
 console.log(addExpenses.toLowerCase().split(', '));
 
