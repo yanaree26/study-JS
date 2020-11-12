@@ -26,14 +26,25 @@ let appData = {
     expenses: {},     //варики растрат
     addExpenses: [],  //добавить растраты в табличку
 
-    deposit: false,   //есть ли депозит в банке
+    percentDeposit: 0,
+    moneyDeposit: 0,
     
     mission: 1000,    //цель
     period: 3,        //период, за кот. будет достигнута цель
 
     asking: function(){
+
+        if(confirm('Есть ли у вас дополнительный источник заработка?')) { 
+                let itemIncome = prompt("Какой у вас дополнительный заработок?", "Стипендия");
+                let cashIncome;
+                do {
+                    cashIncome = +prompt("Сколько в месяц вы на этом зарабатываете?", 50);
+                    appData.income[itemIncome] = cashIncome;
+                } while (!isNumber(cashIncome));
+        }
+
         let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Еда, такси, маник');
-        appData.addExpenses = addExpenses.toLowerCase().split(', ');
+        appData.addExpenses = addExpenses.split(', ');
         appData.deposit = confirm('Есть ли у вас депозит в банке?');
         appData.mission = +prompt('Введите цель накопления:', 1000); 
 
@@ -42,7 +53,7 @@ let appData = {
             let exp;
             do {
                 exp = prompt('Введите обязательную статью расходов?');
-                exp_money = +prompt('Во сколько это обойдется?', 15)
+                exp_money = +prompt('Во сколько это обойдется?', 100)
                 this.expenses[`${exp}`] = exp_money;
             } while (!isNumber(exp_money));
         }
@@ -77,7 +88,22 @@ let appData = {
         } else if(this.budgetDay < 0) {
             console.log('Что-то пошло не так');
         }
-    } 
+    },
+
+    getInfoDeposit: function() {
+        if(appData.deposit) {
+            do {
+                appData.percentDeposit = +prompt('Какой годовой процент?', 0);
+            } while (!isNumber(appData.percentDeposit));
+            do {
+                appData.moneyDeposit = +prompt('Какая сумма заложена?', 0);
+            } while (!isNumber(appData.moneyDeposit)); 
+        }
+    },
+
+    calcSavedMoney: function() {
+        return appData.budgetMonth * appData.period;
+    }
 }
 
 
@@ -103,3 +129,11 @@ for (let key in appData) {
         console.log(key + ': ' + appData[key] );
     }
 }
+
+appData.getInfoDeposit();
+
+for (let i = 0; i < appData.addExpenses.length; i++) {
+    appData.addExpenses[i] = appData.addExpenses[i][0].toUpperCase() + appData.addExpenses[i].slice(1);
+}
+
+console.log("Возможные расходы: " + appData.addExpenses.join(', '));
