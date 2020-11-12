@@ -130,6 +130,7 @@ for (let key in appData) {
     }
 }
 
+
 appData.getInfoDeposit();
 
 for (let i = 0; i < appData.addExpenses.length; i++) {
