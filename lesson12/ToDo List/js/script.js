@@ -5,7 +5,13 @@ const todo_control = document.querySelector('.todo-control'),
     todo_list = document.querySelector('.todo-list'),
     todo_completed = document.querySelector('.todo-completed');
 
-    let todo_data = JSON.parse(localStorage.todo_data);
+    let todo_data;
+
+    if (localStorage.todo_data) {
+        todo_data = JSON.parse(localStorage.todo_data)
+    } else {
+        todo_data = [];
+    }
 
 const addToDo = function() {
 
